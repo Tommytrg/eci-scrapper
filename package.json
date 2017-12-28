@@ -1,0 +1,21 @@
+{
+  "name": "supermarket-eci-scrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Tommytrg",
+    "email": "tomastrg22@gmail.com",
+    "url": "https://tommytrg.github.io/my-personal-site/"
+},
+  "license": "MIT",
+  "dependencies": {
+    "x-ray": "git+https://github.com/matthewmueller/x-ray.git"
+  }
+}
