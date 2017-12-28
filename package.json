@@ -7,15 +7,24 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "author": {
     "name": "Tommytrg",
     "email": "tomastrg22@gmail.com",
     "url": "https://tommytrg.github.io/my-personal-site/"
-},
+  },
   "license": "MIT",
   "dependencies": {
     "x-ray": "git+https://github.com/matthewmueller/x-ray.git"
+  },
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
