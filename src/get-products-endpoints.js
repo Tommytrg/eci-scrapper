@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const fs = require('fs')
 const Xray = require('x-ray')
 
