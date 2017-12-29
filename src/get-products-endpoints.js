@@ -16,13 +16,13 @@ function getData (endpoint, file) {
     .paginate('a[rel=next]@href')
     .then(function (res) {
       console.log(`Writing data from ${endpoint} in file ${file}`)
-      fs.writeFileSync(`./../data/${file}.json`, JSON.stringify({endpoints: res}), 'utf-8')
+      fs.writeFileSync(`./../data/categories/${file}.json`, JSON.stringify({endpoints: res}), 'utf-8')
     })
     .catch(function (err) {
       console.log(`ERROR writing data from ${endpoint} in file ${file}`)
       console.log(err)
     })
-    .delay(2000)
+    .delay(1000)
 }
 
 getProductEndpoints()
