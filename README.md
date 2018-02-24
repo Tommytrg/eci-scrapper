@@ -1,1 +1,1 @@
-supermarket-eci-scrapper
+eci-scrapper
