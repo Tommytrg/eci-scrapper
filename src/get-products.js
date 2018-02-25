@@ -1,20 +1,30 @@
-const fs = require('fs')
 const Xray = require('x-ray')
-const readJSON = require('./utils/read-json-async')
+const endpoints = require('../config/endpoints')
 
+module.exports = {
+  getProductsData
+}
 const x = Xray()
 
-async function getProductsData () {
-  const files = fs.readdirSync('../data/categories', 'utf-8')
-  for (let file of files) {
-    const categories = JSON.parse(fs.readFileSync(`../data/categories/${file}`, 'utf-8')).endpoints
-    for (let category of categories) {
-      await getProductData(category, file)
-    }
+async function getProductsData (db) {
+  const categories = Object.keys(endpoints)
+  for (let key of categories) {
+    await db.collection('pdp').find({ category: key }).toArray(async function (err, data) {
+      console.log('err::::::', err)
+      console.log('data:::::', data)
+      if (err) {
+        console.log(err)
+      }
+      for (let endpoint of data[0].pdps) {
+        if (typeof endpoint === 'string') {
+          await getProductData(endpoint, db)
+        }
+      }
+    })
   }
 }
 
-function getProductData (endpoint, file) {
+function getProductData (endpoint, db) {
   return x(endpoint, 'body',
     {
       full_name: 'h1',
@@ -31,14 +41,20 @@ function getProductData (endpoint, file) {
       ean: '.pdp-reference span'
     }
   )
-    .then(function (res) {
-      console.log(`Writing data from ${endpoint} in file ${file}`)
-      const data = readJSON(`../data/products/${file}`)
-      data.push(res)
-      fs.writeFileSync(`../data/products/${file}`, [JSON.stringify(data)], 'utf8')
+    .then(async function (res) {
+      console.log('PRODUCT', res)
+      await db.collection('product').updateOne(
+        { full_name: res.full_name },
+        { $set: res },
+        { 'upsert': true },
+        function (err, doc) {
+          console.log('SAVING IN DB RESPONSE')
+          if (err) {
+            console.log(err)
+          }
+        })
     })
     .catch(function (err) {
-      console.log(`ERROR writing data from ${endpoint} in file ${file}`)
       console.log(err)
     })
     .delay(1000)
